@@ -1,5 +1,9 @@
 {
   "Язык": "English",
   "О сайте": "About page",
-  "Главная": "Main"
+  "Главная": "Main",
+  "Страница не найдена": "Page not found",
+  "Загрузка": "Loading",
+  "Произошла непредвиденная ошибка": "Something went wrong",
+  "Обновить страницу": "Reload page"
 }
