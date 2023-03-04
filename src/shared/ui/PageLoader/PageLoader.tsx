@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { FC } from 'react';
+import { Loader } from 'shared/ui/Loader/Loader';
 
 interface PageLoaderProps {
     className?: string
@@ -10,7 +11,7 @@ export const PageLoader: FC<PageLoaderProps> = ({ className }) => {
 
     return (
         <div>
-            {`...${t('Загрузка')}`}
+            <Loader />
         </div>
     );
 };
