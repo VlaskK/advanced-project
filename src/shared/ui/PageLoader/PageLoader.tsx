@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { FC } from 'react';
+import { memo } from 'react';
 import { Loader } from 'shared/ui/Loader/Loader';
 
 interface PageLoaderProps {
     className?: string
 }
 
-export const PageLoader: FC<PageLoaderProps> = ({ className }) => {
+export const PageLoader = memo(({ className }: PageLoaderProps) => {
     const { t } = useTranslation();
 
     return (
@@ -14,4 +14,4 @@ export const PageLoader: FC<PageLoaderProps> = ({ className }) => {
             <Loader />
         </div>
     );
-};
+});
