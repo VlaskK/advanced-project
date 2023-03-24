@@ -13,6 +13,9 @@ export const useTheme = (): useThemeResult => {
         let newTheme: Theme;
         switch (theme) {
         case Theme.DARK:
+            newTheme = Theme.ORANGE;
+            break;
+        case Theme.ORANGE:
             newTheme = Theme.LIGHT;
             break;
         case Theme.LIGHT:
