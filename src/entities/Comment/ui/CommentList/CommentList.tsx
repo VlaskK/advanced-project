@@ -23,6 +23,7 @@ export const CommentList = (props: CommentListProps) => {
                         className={cls.comment}
                         comment={comment}
                         isLoading={isLoading}
+                        key={comment.id}
                     />
                 ))
                 : <Text text={t('Комментарии отсутсвуют')} />}

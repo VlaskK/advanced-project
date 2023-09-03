@@ -1,13 +1,16 @@
 import {
     createEntityAdapter,
     createSlice,
-    configureStore,
+    configureStore, PayloadAction,
 } from '@reduxjs/toolkit';
 import { Comment } from 'entities/Comment';
 import { StateSchema } from 'app/providers/StoreProvider';
+import {
+    fetchCommentsByArticleId,
+} from 'pages/ArticleDetailsPage/model/services/fetchCommentsByArticleId/fetchCommentsByArticleId';
 import { ArticleDetailsCommentsSchema } from '../types/ArticleDetailsCommentsSchema';
 
-const commentsAdapter = createEntityAdapter<Comment>({
+export const commentsAdapter = createEntityAdapter<Comment>({
     selectId: (comment) => comment.id,
 });
 
@@ -16,26 +19,31 @@ export const getArticleComments = commentsAdapter.getSelectors<StateSchema>(
 );
 
 const articleDetailsCommentSlice = createSlice({
-    name: 'articleDetailsSchema',
+    name: 'articleDetailsCommentSchema',
     initialState: commentsAdapter.getInitialState<ArticleDetailsCommentsSchema>({
         isError: undefined,
         isLoading: false,
-        ids: [1, 2],
-        entities: {
-            1: {
-                id: '1',
-                text: '1',
-                user: { id: '1', username: 'v' },
-            },
-            2: {
-                id: '2',
-                text: '1',
-                user: { id: '2', username: 'vs' },
-            },
-        },
+        ids: [],
+        entities: {},
     }),
-    reducers: {
-
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchCommentsByArticleId.pending, (state) => {
+                state.isError = undefined;
+                state.isLoading = true;
+            })
+            .addCase(fetchCommentsByArticleId.fulfilled, (
+                state,
+                action: PayloadAction<Comment[]>,
+            ) => {
+                state.isLoading = false;
+                commentsAdapter.setAll(state, action.payload);
+            })
+            .addCase(fetchCommentsByArticleId.rejected, (state) => {
+                state.isLoading = false;
+                state.isError = true;
+            });
     },
 });
 
