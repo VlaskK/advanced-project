@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DynamicModuleLoader, ReducersList } from 'shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
 import {
@@ -18,6 +18,8 @@ import { Currency } from 'entities/Currency';
 import { Country } from 'shared/const/common';
 import { Text, TextTheme } from 'shared/ui/Text/Text';
 import { ValidateProfileError } from 'entities/Profile/model/types/profile';
+import { useInitialEffect } from 'shared/lib/hooks/useInitialEffect/useInitialEffect';
+import { useParams } from 'react-router-dom';
 import { ProfilePageHeader } from './ProfielPageHeader/ProfilePageHeader';
 
 const reducers: ReducersList = {
@@ -27,8 +29,11 @@ const reducers: ReducersList = {
 interface ProfilePageProps {
     className?: string
 }
-const ProfilePage: FC<ProfilePageProps> = ({ className }) => {
+const ProfilePage: FC<ProfilePageProps> = () => {
     const { t } = useTranslation('profile');
+
+    const { id } = useParams<{ id: string }>();
+
     const dispatch = useAppDispatch();
 
     const formData = useSelector(getProfileForm);
@@ -45,11 +50,15 @@ const ProfilePage: FC<ProfilePageProps> = ({ className }) => {
         [ValidateProfileError.INCORRECT_USER_DATA]: t('Имя и фамилия обязательны'),
     };
 
-    useEffect(() => {
-        if (__PROJECT__ !== 'storybook') {
-            dispatch(fetchProfileData());
+    useInitialEffect(() => {
+        if (id) {
+            console.log('true');
+            dispatch(fetchProfileData(id));
+        } else {
+            console.log('false');
         }
-    }, [dispatch]);
+        console.log(id);
+    });
 
     const onChangeFirstName = useCallback((value?: string) => {
         dispatch(profileActions.updateProfile({ first: value || '' }));
@@ -85,10 +94,7 @@ const ProfilePage: FC<ProfilePageProps> = ({ className }) => {
     }, [dispatch]);
 
     return (
-        <DynamicModuleLoader
-            reducers={reducers}
-            removeAfterUnmount
-        >
+        <DynamicModuleLoader reducers={reducers}>
             <ProfilePageHeader />
             { validationErrors?.length && validationErrors.map((err) => (
                 <Text
