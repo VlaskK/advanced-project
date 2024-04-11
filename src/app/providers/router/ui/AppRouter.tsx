@@ -1,47 +1,32 @@
 import React, { memo, Suspense, useCallback } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { PageLoader } from 'shared/ui/PageLoader/PageLoader';
-import { AppRouteProps, routeConfig } from 'shared/config/routeConfig/routeConfig';
-import { RequireAuth } from 'app/providers/router/ui/RequireAuth';
+import { PageLoader } from '@/widgets/PageLoader';
+import { RequireAuth } from './RequireAuth';
+import { routeConfig } from '../config/routeConfig';
+import { AppRoutesProps } from '@/shared/types/router';
 
 const AppRouter = () => {
-    const renderWithWrapper = useCallback((route: AppRouteProps) => {
+    const renderWithWrapper = useCallback((route: AppRoutesProps) => {
         const element = (
-            <Suspense fallback={<PageLoader />}>
-                <div className="page-wrapper">
-                    { route.element }
-                </div>
-            </Suspense>
+            <Suspense fallback={<PageLoader />}>{route.element}</Suspense>
         );
 
         return (
             <Route
                 key={route.path}
                 path={route.path}
-                element={route.authOnly
-                    ? <RequireAuth>{element}</RequireAuth>
-                    : element}
+                element={
+                    route.authOnly ? (
+                        <RequireAuth roles={route.roles}>{element}</RequireAuth>
+                    ) : (
+                        element
+                    )
+                }
             />
         );
     }, []);
 
-    return (
-        <Suspense fallback={<PageLoader />}>
-            <Routes>
-                { Object.values(routeConfig).map(renderWithWrapper) }
-                {/* {routes.map(({ element, path }) => ( */}
-                {/*    <Route */}
-                {/*        key={path} */}
-                {/*        path={path} */}
-                {/*        element={( */}
-                {/*            <div className="page-wrapper"> */}
-                {/*                {element} */}
-                {/*            </div> */}
-                {/*        )} */}
-                {/*    /> */}
-                {/* ))} */}
-            </Routes>
-        </Suspense>
-    );
+    return <Routes>{Object.values(routeConfig).map(renderWithWrapper)}</Routes>;
 };
+
 export default memo(AppRouter);

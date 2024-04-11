@@ -1,5 +1,6 @@
 {
-  "Страница не найдена": "page not found",
-  "Произошла ошибка": "Error occurred",
-  "Комментарии": "Comments"
+    "Статья не найдена": "Article not found",
+    "Комментарии": "Comments",
+    "Назад к списку": "Back to list",
+    "Рекомендуем": "Recommend"
 }

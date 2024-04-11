@@ -1,18 +1,21 @@
-import { BugButton } from 'app/providers/ErrorBoundary';
-import React, { memo } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Input } from 'shared/ui/Input/Input';
+import { Page } from '@/widgets/Page';
 
-const MainPage = memo(() => {
-    const { t } = useTranslation('main');
+const MainPage = () => {
+    const { t } = useTranslation();
+    const [value, setValue] = useState('');
+
+    const onChange = (val: string) => {
+        setValue(val);
+    };
 
     return (
-        <div>
-            <BugButton />
+        <Page data-testid="MainPage">
+            <div>123123123123123123</div>
             {t('Главная страница')}
-            <Input />
-        </div>
+        </Page>
     );
-});
+};
 
 export default MainPage;

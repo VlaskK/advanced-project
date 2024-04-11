@@ -1,28 +1,30 @@
 import React, { ErrorInfo, ReactNode, Suspense } from 'react';
-import { PageError } from 'widgets/PageError';
+import { ErrorPage } from '@/widgets/ErrorPage';
 
 interface ErrorBoundaryProps {
-    children: ReactNode
+    children: ReactNode;
 }
 
 interface ErrorBoundaryState {
-    hasError: boolean
+    hasError: boolean;
 }
 
-class ErrorBoundary
-    extends React.Component<ErrorBoundaryProps, ErrorBoundaryState> {
+class ErrorBoundary extends React.Component<
+    ErrorBoundaryProps,
+    ErrorBoundaryState
+> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = { hasError: false };
     }
 
     static getDerivedStateFromError(error: Error) {
-        // Обновить состояние с тем, чтобы следующий рендер показал запасной UI.
+        // Update state so the next render will show the fallback UI.
         return { hasError: true };
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-        // Можно также сохранить информацию об ошибке в соответствующую службу журнала ошибок
+        // You can also log the error to an error reporting service
         console.log(error, errorInfo);
     }
 
@@ -31,10 +33,10 @@ class ErrorBoundary
         const { children } = this.props;
 
         if (hasError) {
-            // Можно отрендерить запасной UI произвольного вида
+            // You can render any custom fallback UI
             return (
-                <Suspense fallback={' '}>
-                    <PageError />
+                <Suspense fallback="">
+                    <ErrorPage />
                 </Suspense>
             );
         }

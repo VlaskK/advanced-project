@@ -1,10 +1,16 @@
-export {
-    ArticleDetails,
-} from './ui/ArticleDetails/ArticleDetails';
+export { ArticleDetailsSkeleton } from './ui/ArticleDetails/ArticleDetails';
 
-export {
-    Article,
-} from './modal/types/article';
-export { ArticleDetailsSchema } from './modal/types/articleDetailsSchema';
+export { ArticleDetails } from './ui/ArticleDetails/ArticleDetails';
 
-export { getArticleDetailsData } from './modal/selectors/articleDetails';
+export type { Article } from './model/types/article';
+
+export type { ArticleDetailsSchema } from './model/types/articleDetailsSchema';
+
+export { ArticleList } from './ui/ArticleList/ArticleList';
+export { getArticleDetailsData } from './model/selectors/articleDetails';
+export {
+    ArticleView,
+    ArticleType,
+    ArticleSortField,
+    ArticleBlockType,
+} from './model/consts/articleConsts';
